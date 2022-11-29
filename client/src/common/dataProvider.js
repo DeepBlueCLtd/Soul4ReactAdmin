@@ -3,6 +3,18 @@ import axios from "axios";
 
 import config from "../config";
 
+const pkDictionary = {
+  "genres/rows": "GenreId",
+  "artists/rows": "ArtistId",
+  "customers/rows": "CustomerId",
+  "employees/rows": "EmployeeId",
+  "invoices/rows": "InvoiceId",
+  "media_types/rows": "MediaTypeId",
+  "playlists/rows": "PlayListId",
+  "playlist_track/rows": "PlayListId",
+  "tracks/rows": "TrackId",
+};
+
 export const dataProvider = {
   getList: (resource, params) => {
     const { page, perPage } = params.pagination;
@@ -23,7 +35,9 @@ export const dataProvider = {
       const modifiedData = [];
       for (let i = 0; i < data.length; i++) {
         const item = data[i];
-        item.id = item.GenreId;
+        const primaryKey = pkDictionary[resource];
+
+        item.id = item[primaryKey];
         modifiedData.push(item);
       }
 

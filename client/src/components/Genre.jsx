@@ -6,13 +6,7 @@ import {
   SimpleForm,
   TextInput,
   Edit,
-  useRecordContext,
 } from "react-admin";
-
-function GenreTitle() {
-  const record = useRecordContext();
-  return <span> Post {record ? `"${record.title}"` : ""}</span>;
-}
 
 export function GenreList() {
   return (
