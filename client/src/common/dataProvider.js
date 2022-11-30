@@ -1,76 +1,77 @@
 import { stringify } from "query-string";
 import axios from "axios";
 
-import config from "../config";
+export const dataProvider = ({ pkDictionary, apiUrl }) => {
+  return {
+    getList: (resource, params) => {
+      const { page, perPage } = params.pagination;
+      const { field, order } = params.sort;
 
-const pkDictionary = {
-  "genres/rows": "GenreId",
-  "artists/rows": "ArtistId",
-  "customers/rows": "CustomerId",
-  "employees/rows": "EmployeeId",
-  "invoices/rows": "InvoiceId",
-  "media_types/rows": "MediaTypeId",
-  "playlists/rows": "PlayListId",
-  "playlist_track/rows": "PlayListId",
-  "tracks/rows": "TrackId",
-};
+      const ordering = order === "ASC" ? `${field}` : `-${field}`;
+      const query = {
+        _page: page,
+        _limit: perPage,
+        _ordering: field !== "id" ? ordering : undefined,
+      };
 
-export const dataProvider = {
-  getList: (resource, params) => {
-    const { page, perPage } = params.pagination;
-    const { field, order } = params.sort;
+      const url = `${apiUrl}/${resource}/rows?${stringify(query)}`;
 
-    const query = {
-      _page: page,
-      _limit: perPage,
-      _ordering: order === "ASC" ? `${field}` : `-${field}`,
-    };
+      return axios.get(url).then((response) => {
+        const { data } = response.data;
 
-    const url = `${config.apiUrl}/${resource}?${stringify(query)}`;
+        //manually add an id key
+        const modifiedData = [];
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i];
+          const primaryKey = pkDictionary[resource];
 
-    return axios.get(url).then((response) => {
-      const { data } = response.data;
+          if (primaryKey !== undefined) {
+            item.id = item[primaryKey];
+          }
 
-      //manually add an id key
-      const modifiedData = [];
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i];
-        const primaryKey = pkDictionary[resource];
+          modifiedData.push(item);
+        }
 
-        item.id = item[primaryKey];
-        modifiedData.push(item);
-      }
+        response.data.data = modifiedData;
+        return response.data;
+      });
+    },
 
-      response.data.data = modifiedData;
-      return response.data;
-    });
-  },
+    create: (resource, params) => {
+      const url = `${apiUrl}/${resource}/rows`;
 
-  create: (resource, params) => {
-    const url = `${config.apiUrl}/${resource}`;
+      return axios.post(url, { fields: params.data }).then((response) => {
+        return { data: { id: response.data.lastInsertRowId, ...params.data } };
+      });
+    },
 
-    return axios.post(url, { fields: params.data }).then((response) => {
-      return { data: { id: response.data.lastInsertRowId, ...params.data } };
-    });
-  },
+    getOne: (resource, params) => {
+      const url = `${apiUrl}/${resource}/rows/${params.id}`;
 
-  getOne: (resource, params) => {
-    const url = `${config.apiUrl}/${resource}/${params.id}`;
+      return axios.get(url).then((response) => {
+        const { data } = response.data;
+        return { data: { id: data[0].GenreId, ...data[0] } };
+      });
+    },
 
-    return axios.get(url).then((response) => {
-      const { data } = response.data;
-      return { data: { id: data[0].GenreId, ...data[0] } };
-    });
-  },
+    update: (resource, params) => {
+      const url = `${apiUrl}/${resource}/rows/${params.id}`;
 
-  update: (resource, params) => {
-    const url = `${config.apiUrl}/${resource}/${params.id}`;
+      // remove the id property
+      const { id, ...editData } = params.data;
 
-    // remove the id property
-    const { id, ...editData } = params.data;
+      return axios.put(url, { fields: editData }).then((response) => {
+        return { data: { id: response.data.lastInsertRowId, ...params.data } };
+      });
+    },
 
-    return axios.put(url, { fields: editData }).then((response) => {
-      return { data: { id: response.data.lastInsertRowId, ...params.data } };
-    });
-  },
+    deleteMany: (resource, params) => {
+      const ids = params.ids.toString();
+      const url = `${apiUrl}/${resource}/rows/${ids}`;
+
+      return axios.delete(url).then((response) => {
+        return { data: { id: response.data.lastInsertRowId, ...params.data } };
+      });
+    },
+  };
 };
