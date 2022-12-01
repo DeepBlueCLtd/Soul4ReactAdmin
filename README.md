@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 Run the command below to clone the projects repository, this will clone both the projects repository and the `soul` submodule repository.
 
 ```
- git clone --recurse-submodules git@github.com:DeepBlueCLtd/Soul4ReactAdmin.git
+ git clone --recurse-submodules https://github.com/DeepBlueCLtd/Soul4ReactAdmin.git
 ```
 
 ## Running the soul wrapper
