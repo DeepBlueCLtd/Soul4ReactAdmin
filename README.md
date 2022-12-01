@@ -2,6 +2,14 @@
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+## Cloning the repo
+
+Run the command below to clone the projects repository, this will clone both the projects repository and the `soul` submodule repository.
+
+```
+ git clone --recurse-submodules git@github.com:DeepBlueCLtd/Soul4ReactAdmin.git
+```
+
 ## Running the soul wrapper
 
 1. Copy the `chinook.db` database file to the core folder
