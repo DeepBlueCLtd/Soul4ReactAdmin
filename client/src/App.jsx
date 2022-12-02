@@ -9,8 +9,12 @@ import {
   GenreEdit,
   GenreShow,
 } from "./components/Genre";
-import { InvoiceItemList, InvoiceItemShow } from "./components/InvoiceItems";
-import { TrackList, TrackShow } from "./components/Track";
+import {
+  InvoiceItemList,
+  InvoiceItemShow,
+  InvoiceItemEdit,
+} from "./components/InvoiceItems";
+import { TrackList, TrackShow, TrackEdit } from "./components/Track";
 
 const pkDictionary = {
   genres: "GenreId",
@@ -40,11 +44,14 @@ function App() {
         name="invoice_items"
         list={InvoiceItemList}
         show={InvoiceItemShow}
+        edit={InvoiceItemEdit}
       />
+
       <Resource
         name="tracks"
         list={TrackList}
         show={TrackShow}
+        edit={TrackEdit}
         recordRepresentation="Name"
       />
     </Admin>

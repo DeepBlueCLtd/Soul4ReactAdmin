@@ -7,6 +7,8 @@ import {
   Show,
   SimpleShowLayout,
   TextInput,
+  Edit,
+  SimpleForm,
 } from "react-admin";
 
 const invoiceItemFilters = [
@@ -40,5 +42,18 @@ export function InvoiceItemShow() {
         <TextField source="Quantity" />
       </SimpleShowLayout>
     </Show>
+  );
+}
+
+export function InvoiceItemEdit() {
+  return (
+    <Edit>
+      <SimpleForm>
+        <TextInput source="id" disabled />
+        <TextInput source="InvoiceId" />
+        <TextInput source="UnitPrice" />
+        <TextInput source="Quantity" />
+      </SimpleForm>
+    </Edit>
   );
 }

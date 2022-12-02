@@ -9,6 +9,7 @@ import {
   EditButton,
   Show,
   SimpleShowLayout,
+  ShowButton,
 } from "react-admin";
 
 const genreFilters = [
@@ -19,7 +20,7 @@ const genreFilters = [
 export function GenreList() {
   return (
     <List filters={genreFilters}>
-      <Datagrid rowClick="show">
+      <Datagrid>
         <TextField source="id" />
         <TextField source="Name" />
         <EditButton />
@@ -42,8 +43,8 @@ export function GenreEdit() {
   return (
     <Edit>
       <SimpleForm>
-        <TextField source="GenreId" />
-        <TextField source="Name" />
+        <TextInput source="GenreId" disabled />
+        <TextInput source="Name" />
       </SimpleForm>
     </Edit>
   );

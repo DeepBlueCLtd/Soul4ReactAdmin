@@ -6,6 +6,8 @@ import {
   Show,
   SimpleShowLayout,
   TextInput,
+  Edit,
+  SimpleForm,
 } from "react-admin";
 
 const trackFilters = [
@@ -44,5 +46,21 @@ export function TrackShow() {
         <TextField source="UnitPrice" />
       </SimpleShowLayout>
     </Show>
+  );
+}
+
+export function TrackEdit() {
+  return (
+    <Edit>
+      <SimpleForm>
+        <TextInput source="id" disabled />
+        <TextInput source="Name" />
+        <TextInput source="AlbumId" disabled />
+        <TextInput source="Composer" />
+        <TextInput source="Milliseconds" />
+        <TextInput source="Bytes" />
+        <TextInput source="UnitPrice" />
+      </SimpleForm>
+    </Edit>
   );
 }
