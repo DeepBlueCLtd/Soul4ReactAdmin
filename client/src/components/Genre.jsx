@@ -6,14 +6,23 @@ import {
   SimpleForm,
   TextInput,
   Edit,
+  EditButton,
+  Show,
+  SimpleShowLayout,
 } from "react-admin";
+
+const genreFilters = [
+  <TextInput label="Id" source="GenreId" alwaysOn />,
+  <TextInput label="Name" source="Name" />,
+];
 
 export function GenreList() {
   return (
-    <List>
-      <Datagrid rowClick="edit">
-        <TextField source="GenreId" />
+    <List filters={genreFilters}>
+      <Datagrid rowClick="show">
+        <TextField source="id" />
         <TextField source="Name" />
+        <EditButton />
       </Datagrid>
     </List>
   );
@@ -33,9 +42,20 @@ export function GenreEdit() {
   return (
     <Edit>
       <SimpleForm>
-        <TextInput source="id" disabled />
-        <TextInput source="Name" />
+        <TextField source="GenreId" />
+        <TextField source="Name" />
       </SimpleForm>
     </Edit>
+  );
+}
+
+export function GenreShow() {
+  return (
+    <Show title="Genre view">
+      <SimpleShowLayout>
+        <TextField source="GenreId" />
+        <TextField source="Name" />
+      </SimpleShowLayout>
+    </Show>
   );
 }

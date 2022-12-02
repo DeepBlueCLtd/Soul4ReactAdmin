@@ -3,9 +3,14 @@ import { Admin, Resource } from "react-admin";
 import { dataProvider } from "./common/dataProvider";
 import config from "./config";
 
-import { GenreList, GenreCreate, GenreEdit } from "./components/Genre";
-import { InvoiceItemList } from "./components/InvoiceItems";
-import { TrackList } from "./components/Track";
+import {
+  GenreList,
+  GenreCreate,
+  GenreEdit,
+  GenreShow,
+} from "./components/Genre";
+import { InvoiceItemList, InvoiceItemShow } from "./components/InvoiceItems";
+import { TrackList, TrackShow } from "./components/Track";
 
 const pkDictionary = {
   genres: "GenreId",
@@ -28,10 +33,20 @@ function App() {
         list={GenreList}
         create={GenreCreate}
         edit={GenreEdit}
+        show={GenreShow}
       />
 
-      <Resource name="invoice_items" list={InvoiceItemList} />
-      <Resource name="tracks" list={TrackList} recordRepresentation="Name" />
+      <Resource
+        name="invoice_items"
+        list={InvoiceItemList}
+        show={InvoiceItemShow}
+      />
+      <Resource
+        name="tracks"
+        list={TrackList}
+        show={TrackShow}
+        recordRepresentation="Name"
+      />
     </Admin>
   );
 }

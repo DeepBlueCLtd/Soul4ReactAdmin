@@ -7,10 +7,15 @@ export const dataProvider = ({ pkDictionary, apiUrl }) => ({
     const { field, order } = params.sort;
 
     const ordering = order === "ASC" ? `${field}` : `-${field}`;
+
+    //since the soul api requires comma separated filters, remove the quotes and curly braces from the filter
+    const filter = JSON.stringify(params.filter).replace(/[{} ""]/g, "");
+
     const query = {
       _page: page,
       _limit: perPage,
       _ordering: field !== "id" ? ordering : undefined,
+      _filters: filter ? filter : undefined,
     };
 
     const url = `${apiUrl}/${resource}/rows?${stringify(query)}`;
@@ -26,13 +31,13 @@ export const dataProvider = ({ pkDictionary, apiUrl }) => ({
 
         if (primaryKey !== undefined) {
           item.id = item[primaryKey];
+          delete item[primaryKey];
         }
 
         modifiedData.push(item);
       }
 
-      response.data.data = modifiedData;
-      return response.data;
+      return { data: modifiedData, total: response.data.total };
     });
   },
 
@@ -54,6 +59,7 @@ export const dataProvider = ({ pkDictionary, apiUrl }) => ({
       const primaryKey = pkDictionary[resource];
       if (primaryKey !== undefined) {
         data.id = data[primaryKey];
+        delete data[primaryKey];
       }
 
       return { data };
@@ -74,13 +80,13 @@ export const dataProvider = ({ pkDictionary, apiUrl }) => ({
 
         if (primaryKey !== undefined) {
           item.id = item[primaryKey];
+          delete item[primaryKey];
         }
 
         modifiedData.push(item);
       }
 
-      response.data.data = modifiedData;
-      return response.data;
+      return { data: modifiedData, total: response.data.total };
     });
   },
 
