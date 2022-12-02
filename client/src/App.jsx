@@ -1,8 +1,11 @@
 import { Admin, Resource } from "react-admin";
 
 import { dataProvider } from "./common/dataProvider";
-import { GenreList, GenreCreate, GenreEdit } from "./components/Genre";
 import config from "./config";
+
+import { GenreList, GenreCreate, GenreEdit } from "./components/Genre";
+import { InvoiceItemList } from "./components/InvoiceItems";
+import { TrackList } from "./components/Track";
 
 const pkDictionary = {
   genres: "GenreId",
@@ -10,6 +13,7 @@ const pkDictionary = {
   customers: "CustomerId",
   employees: "EmployeeId",
   invoices: "InvoiceId",
+  invoice_items: "InvoiceLineId",
   media_types: "MediaTypeId",
   playlists: "PlayListId",
   playlist_track: "PlayListId",
@@ -25,6 +29,9 @@ function App() {
         create={GenreCreate}
         edit={GenreEdit}
       />
+
+      <Resource name="invoice_items" list={InvoiceItemList} />
+      <Resource name="tracks" list={TrackList} recordRepresentation="Name" />
     </Admin>
   );
 }
