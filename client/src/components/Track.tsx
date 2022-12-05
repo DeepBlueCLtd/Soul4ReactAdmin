@@ -8,6 +8,9 @@ import {
   TextInput,
   Edit,
   SimpleForm,
+  Create,
+  ReferenceInput,
+  SelectInput,
 } from "react-admin";
 
 const trackFilters = [
@@ -23,6 +26,8 @@ export function TrackList() {
         <TextField source="id" />
         <TextField source="Name" />
         <TextField source="AlbumId" />
+        <TextField source="MediaTypeId" />
+        <TextField source="GenreId" />
         <TextField source="Composer" />
         <TextField source="Milliseconds" />
         <TextField source="Bytes" />
@@ -40,6 +45,8 @@ export function TrackShow() {
         <TextField source="id" />
         <TextField source="Name" />
         <TextField source="AlbumId" />
+        <TextField source="MediaTypeId" />
+        <TextField source="GenreId" />
         <TextField source="Composer" />
         <TextField source="Milliseconds" />
         <TextField source="Bytes" />
@@ -62,5 +69,26 @@ export function TrackEdit() {
         <TextInput source="UnitPrice" />
       </SimpleForm>
     </Edit>
+  );
+}
+
+export function TrackCreate() {
+  return (
+    <Create>
+      <SimpleForm>
+        <ReferenceInput label="Album" source="AlbumId" reference="albums">
+          <SelectInput />
+        </ReferenceInput>
+        <ReferenceInput
+          label="Media Type"
+          source="mediaTypeId"
+          reference="media_types"
+        >
+          <SelectInput />
+        </ReferenceInput>
+        <TextInput source="UnitPrice" />
+        <TextInput source="Quantity" />
+      </SimpleForm>
+    </Create>
   );
 }
