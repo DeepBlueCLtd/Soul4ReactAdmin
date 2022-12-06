@@ -5,8 +5,9 @@ import { DataProvider } from 'ra-core';
 export const dataProvider = (pkDictionary: any, apiUrl: string): DataProvider => ({
   getList: (resource: string, params: any) => {
     const { page, perPage } = params.pagination;
-    const { field, order } = params.sort;
+    let { field, order } = params.sort;
 
+    field = field === 'id' ? pkDictionary[resource] : field
     const ordering = order === "ASC" ? `${field}` : `-${field}`;
 
     //since the soul api requires comma separated filters, remove the quotes and curly braces from the filter
@@ -15,9 +16,11 @@ export const dataProvider = (pkDictionary: any, apiUrl: string): DataProvider =>
     const query = {
       _page: page,
       _limit: perPage,
-      _ordering: field !== "id" ? ordering : undefined,
+      _ordering: ordering,
       _filters: filter ? filter : undefined,
     };
+
+    console.log(query._ordering)
 
     const url = `${apiUrl}/${resource}/rows?${stringify(query)}`;
 
@@ -139,7 +142,18 @@ export const dataProvider = (pkDictionary: any, apiUrl: string): DataProvider =>
     });
   },
 
-  updateMany: (resource: string, params: any) => {},
+  updateMany: (resource: string, params: any) => {
+    const url = `${apiUrl}/${resource}/rows/${params.ids.toString()}`;
+
+    // remove the id property
+    const { id, ...editData } = params.data;
+    return axios.put(url, { fields: editData }).then(async (response) => { 
+
+      //refetch the edited items from the api
+      const editedItems = await axios.get(url) 
+      return { data: editedItems.data.data };
+    });
+  },
 
   delete: (resource: string, params: any) => {
     const url = `${apiUrl}/${resource}/rows/${params.id}`;

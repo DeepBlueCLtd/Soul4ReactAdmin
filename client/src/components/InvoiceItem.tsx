@@ -12,7 +12,10 @@ import {
   Create,
   SelectInput,
   ReferenceInput,
+  BulkUpdateButton,
+  BulkDeleteButton,
 } from "react-admin";
+import { Fragment } from "react";
 
 const invoiceItemFilters = [
   <TextInput label="Id" source="InvoiceLineId" alwaysOn />,
@@ -22,10 +25,19 @@ const invoiceItemFilters = [
   <TextInput label="InvoiceId" source="InvoiceId" />,
 ];
 
+const bulkUpdateData = { UnitPrice: 0 };
+
+const BulkActionButtons = () => (
+  <Fragment>
+    <BulkDeleteButton />
+    <BulkUpdateButton label="Make free" data={bulkUpdateData} />
+  </Fragment>
+);
+
 export function InvoiceItemList() {
   return (
     <List filters={invoiceItemFilters}>
-      <Datagrid rowClick="show">
+      <Datagrid rowClick="show" bulkActionButtons={<BulkActionButtons />}>
         <TextField source="id" />
         <ReferenceField
           label="Track Name"

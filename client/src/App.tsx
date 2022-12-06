@@ -16,7 +16,12 @@ import {
   InvoiceItemEdit,
   InvoiceItemCreate,
 } from "./components/InvoiceItem";
-import { AlbumList, AlbumShow } from "./components/Album";
+import {
+  AlbumList,
+  AlbumShow,
+  AlbumEdit,
+  AlbumCreate,
+} from "./components/Album";
 import { TrackList, TrackShow, TrackEdit } from "./components/Track";
 
 const pkDictionary = {
@@ -59,7 +64,13 @@ function App() {
         edit={TrackEdit}
         recordRepresentation="Name"
       />
-      <Resource name="albums" list={AlbumList} show={AlbumShow} />
+      <Resource
+        name="albums"
+        list={AlbumList}
+        show={AlbumShow}
+        edit={AlbumEdit}
+        create={AlbumCreate}
+      />
     </Admin>
   );
 }

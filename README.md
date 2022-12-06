@@ -12,46 +12,41 @@ Run the command below to clone the projects repository, this will clone both the
 
 ## Running the soul wrapper
 
-1. Copy the `chinook.db` database file to the core folder
+1.  Copy the `chinook.db` database file from the `db` folder to the `soul/core` folder
 
-   ```
-    cp chinook.db soul/core
-   ```
+    ```
+     cp db/chinook.db soul/core
+    ```
 
-2. Create a `.env` file and duplicate the sample environment varialbes
+2.  Create a `.env` file in the `soul/core` folder and duplicate the sample environment varialbes
 
-   ```
-   cd soul/core
-   cp .env.sample .env
-   ```
+    ```
+    cd soul/core
+    cp .env.sample .env
+    ```
 
-3. Edit the environment variables
+3.  Edit the environment variables
 
-   - Edit the Database name
+    - Edit the Database name and add your frontend applications URL to the CORS white list
 
-     ```
-     nano .env
-     DB=chinook.db
-     ```
+      ```
+       nano .env
 
-   - Add your frontend applications URL to the CORS white list
+       DB=chinook.db
+       CORS_ORIGIN_WHITELIST=http://localhost:5173
+      ```
 
-     ```
-     nano .env
-     CORS_ORIGIN_WHITELIST=http://localhost:5173
-     ```
+4.  Install the `npm` packages
 
-4. Install the `npm` packages
+    ```
+     npm install
+    ```
 
-   ```
-   cd soul/core && npm i
-   ```
+5.  Run the core API
 
-5. Run the core API
-
-   ```
-   cd soul/core && npm run dev
-   ```
+    ```
+     npm run dev
+    ```
 
 ## Running the frontend
 
@@ -65,13 +60,13 @@ Run the command below to clone the projects repository, this will clone both the
 2. Install the npm packages
 
    ```
-   cd client && npm i
+    npm install
    ```
 
 3. Run the client application
 
    ```
-   cd client && npm run dev
+    npm run dev
    ```
 
 ## Testing the providers
@@ -113,9 +108,11 @@ Run the command below to clone the projects repository, this will clone both the
 
 **Test the `updateMany` provider**
 
-```
-
-```
+1. Click the `Invoice Item` tab
+2. Select multiple records by using the checkbox buttons
+3. When you select the items you will get a `Make Free` button in the top right cornor
+4. Click the `Make Free` button
+5. When you click the `Make Free` button, react admin will trigger the `updateMany` provider and a bulk update request will be sent to the `Soul` API
 
 **Test the `create` provider**
 

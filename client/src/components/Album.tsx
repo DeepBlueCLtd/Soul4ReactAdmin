@@ -7,6 +7,12 @@ import {
   SimpleShowLayout,
   ReferenceManyField,
   ReferenceField,
+  SimpleForm,
+  TextInput,
+  Edit,
+  ReferenceInput,
+  SelectInput,
+  Create,
 } from "react-admin";
 
 export function AlbumList() {
@@ -57,5 +63,32 @@ export function AlbumShow() {
         </ReferenceManyField>
       </SimpleShowLayout>
     </Show>
+  );
+}
+
+export function AlbumEdit() {
+  return (
+    <Edit>
+      <SimpleForm>
+        <TextInput source="id" disabled />
+        <TextInput source="Title" />
+        <ReferenceInput label="Artist" source="ArtistId" reference="artists">
+          <SelectInput optionText="Name" />
+        </ReferenceInput>
+      </SimpleForm>
+    </Edit>
+  );
+}
+
+export function AlbumCreate() {
+  return (
+    <Create>
+      <SimpleForm>
+        <TextInput source="Title" />
+        <ReferenceInput label="Artist" source="ArtistId" reference="artists">
+          <SelectInput optionText="Name" />
+        </ReferenceInput>
+      </SimpleForm>
+    </Create>
   );
 }

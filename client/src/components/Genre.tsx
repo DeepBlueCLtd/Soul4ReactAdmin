@@ -9,27 +9,17 @@ import {
   EditButton,
   Show,
   SimpleShowLayout,
-  BulkUpdateButton,
-  BulkDeleteButton,
 } from "react-admin";
-import { Fragment } from "react";
 
 const genreFilters = [
   <TextInput label="Id" source="GenreId" alwaysOn />,
   <TextInput label="Name" source="Name" />,
 ];
 
-const BulkActionButtons = () => (
-  <Fragment>
-    <BulkDeleteButton />
-    <BulkUpdateButton />
-  </Fragment>
-);
-
 export function GenreList() {
   return (
     <List filters={genreFilters}>
-      <Datagrid rowClick="show" bulkActionButtons={<BulkActionButtons />}>
+      <Datagrid rowClick="show">
         <TextField source="id" />
         <TextField source="Name" />
         <EditButton />
