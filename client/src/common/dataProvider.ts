@@ -1,7 +1,8 @@
-import { stringify } from "query-string";
 import axios from "axios";
+import { stringify } from "query-string";
+import { DataProvider } from 'ra-core';
 
-export const dataProvider = (pkDictionary: any, apiUrl: string) => ({
+export const dataProvider = (pkDictionary: any, apiUrl: string): DataProvider => ({
   getList: (resource: string, params: any) => {
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
