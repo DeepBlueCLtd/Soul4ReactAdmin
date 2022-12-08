@@ -11,6 +11,7 @@ import {
   Create,
   ReferenceInput,
   ReferenceField,
+  ReferenceManyField,
   SelectInput,
 } from "react-admin";
 
@@ -18,6 +19,8 @@ const trackFilters = [
   <TextInput label="Id" source="TrackId" alwaysOn />,
   <TextInput label="Name" source="Name" />,
   <TextInput label="Album Name" source="AlbumId" />,
+  <TextInput label="Genre" source="GenreId" />,
+  <TextInput label="Media type" source="MediaTypeId" />,
 ];
 
 export function TrackList() {
@@ -26,7 +29,6 @@ export function TrackList() {
       <Datagrid rowClick="show">
         <TextField source="id" />
         <TextField source="Name" />
-        <TextField source="AlbumId" />
 
         <ReferenceField
           label="Album Name"
@@ -37,8 +39,24 @@ export function TrackList() {
           <TextField source="Title" />
         </ReferenceField>
 
-        <TextField source="MediaTypeId" />
-        <TextField source="GenreId" />
+        <ReferenceField
+          label="Genre"
+          source="GenreId"
+          reference="genres"
+          link="show"
+        >
+          <TextField source="Name" />
+        </ReferenceField>
+
+        <ReferenceField
+          label="Media type"
+          source="MediaTypeId"
+          reference="media_types"
+          link="show"
+        >
+          <TextField source="Name" />
+        </ReferenceField>
+
         <TextField source="Composer" />
         <TextField source="Milliseconds" />
         <TextField source="Bytes" />
