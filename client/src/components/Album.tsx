@@ -21,16 +21,15 @@ export function AlbumList() {
       <Datagrid rowClick="show">
         <TextField source="id" />
         <TextField source="Title" />
-
         <ReferenceField
           label="Artist Name"
           source="ArtistId"
           reference="artists"
           link="show"
+          sortBy="Name"
         >
           <TextField source="Name" />
         </ReferenceField>
-
         <EditButton />
       </Datagrid>
     </List>

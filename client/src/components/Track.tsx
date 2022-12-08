@@ -10,13 +10,14 @@ import {
   SimpleForm,
   Create,
   ReferenceInput,
+  ReferenceField,
   SelectInput,
 } from "react-admin";
 
 const trackFilters = [
   <TextInput label="Id" source="TrackId" alwaysOn />,
   <TextInput label="Name" source="Name" />,
-  <TextInput label="Composer" source="Composer" />,
+  <TextInput label="Album Name" source="AlbumId" />,
 ];
 
 export function TrackList() {
@@ -26,6 +27,16 @@ export function TrackList() {
         <TextField source="id" />
         <TextField source="Name" />
         <TextField source="AlbumId" />
+
+        <ReferenceField
+          label="Album Name"
+          source="AlbumId"
+          reference="albums"
+          link="show"
+        >
+          <TextField source="Title" />
+        </ReferenceField>
+
         <TextField source="MediaTypeId" />
         <TextField source="GenreId" />
         <TextField source="Composer" />
@@ -76,18 +87,28 @@ export function TrackCreate() {
   return (
     <Create>
       <SimpleForm>
+        <TextInput source="Name" />
+
         <ReferenceInput label="Album" source="AlbumId" reference="albums">
-          <SelectInput />
+          <SelectInput optionText="Title" />
         </ReferenceInput>
+
         <ReferenceInput
-          label="Media Type"
-          source="mediaTypeId"
+          label="Media type"
+          source="MediaTypeId"
           reference="media_types"
         >
-          <SelectInput />
+          <SelectInput optionText="Name" />
         </ReferenceInput>
+
+        <ReferenceInput label="Genre" source="GenreId" reference="genres">
+          <SelectInput optionText="Name" />
+        </ReferenceInput>
+
+        <TextInput source="Composer" />
+        <TextInput source="Milliseconds" />
+        <TextInput source="Bytes" />
         <TextInput source="UnitPrice" />
-        <TextInput source="Quantity" />
       </SimpleForm>
     </Create>
   );

@@ -22,7 +22,12 @@ import {
   AlbumEdit,
   AlbumCreate,
 } from "./components/Album";
-import { TrackList, TrackShow, TrackEdit } from "./components/Track";
+import {
+  TrackList,
+  TrackShow,
+  TrackEdit,
+  TrackCreate,
+} from "./components/Track";
 
 const pkDictionary = {
   genres: "GenreId",
@@ -62,6 +67,7 @@ function App() {
         list={TrackList}
         show={TrackShow}
         edit={TrackEdit}
+        create={TrackCreate}
         recordRepresentation="Name"
       />
       <Resource

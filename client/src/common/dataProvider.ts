@@ -6,21 +6,27 @@ export const dataProvider = (pkDictionary: any, apiUrl: string): DataProvider =>
   getList: (resource: string, params: any) => {
     const { page, perPage } = params.pagination;
     let { field, order } = params.sort;
-
+  
     field = field === 'id' ? pkDictionary[resource] : field
     const ordering = order === "ASC" ? `${field}` : `-${field}`;
 
     //since the soul api requires comma separated filters, remove the quotes and curly braces from the filter
     const filter = JSON.stringify(params.filter).replace(/[{} ""]/g, "");
 
+    //Add the _extend query to get many data by using a foreign key 
+    let extend = undefined 
+    if (resource === "albums") {
+      extend = "ArtistId"
+    } 
+
     const query = {
       _page: page,
       _limit: perPage,
       _ordering: ordering,
-      _filters: filter ? filter : undefined,
+      _filters: filter ? filter : undefined, 
+      _extend: extend
     };
-
-    console.log(query._ordering)
+    
 
     const url = `${apiUrl}/${resource}/rows?${stringify(query)}`;
 
@@ -72,7 +78,7 @@ export const dataProvider = (pkDictionary: any, apiUrl: string): DataProvider =>
 
   getMany: (resource: string, params: any) => {
     const url = `${apiUrl}/${resource}/rows/${params.ids.toString()}`;
-
+  
     return axios.get(url).then((response) => {
       const { data } = response.data;
 
@@ -148,10 +154,7 @@ export const dataProvider = (pkDictionary: any, apiUrl: string): DataProvider =>
     // remove the id property
     const { id, ...editData } = params.data;
     return axios.put(url, { fields: editData }).then(async (response) => { 
-
-      //refetch the edited items from the api
-      const editedItems = await axios.get(url) 
-      return { data: editedItems.data.data };
+     return {data: params.ids}
     });
   },
 
