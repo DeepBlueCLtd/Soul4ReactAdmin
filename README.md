@@ -69,6 +69,70 @@ Run the command below to clone the projects repository, this will clone both the
     npm run dev
    ```
 
+## Deploying the project
+
+1. Go to the `/soul/core` folder and create a folder named `_extensions` and create a file named `api.js` in the folder.
+
+   ```
+   cd soul/core
+   md _extensions
+   cd _extensions && touch api.js
+   ```
+
+2. Copy and paste the code below to the `api.js` file
+
+   ```js
+   const path = require("path");
+   const express = require("express");
+
+   const reactAdminClient = {
+     method: "GET",
+     path: "/api/client",
+     handler: (req, res, db) => {
+       const clientPath = path.join(__dirname, "dist", "index.html");
+       res.app.use(express.static(path.join(__dirname, "dist")));
+       res.sendFile(path.join(clientPath));
+     },
+   };
+
+   module.exports = {
+     reactAdminClient,
+   };
+   ```
+
+3. Run the `pwd`command in the `_extensions` folder and copy the absolute path of the folder, and add it to your .env file
+
+   ```js
+   nano .env
+   EXTENSIONS=/absolute/path/to/_extensions
+   ```
+
+4. Go to the client folder and build the project
+
+   ```
+   cd ../../../client
+   yarn build
+   ```
+
+5. After finisshing the build, copy the `dist` folder and paste it to the `soul/core/_extensions` folder
+
+   ```
+   cp -R dist ../soul/core/_extensions
+   ```
+
+6. Go to the `soul/core` folder and run the project
+
+   ```
+   cd ../soul/core
+   npm run dev
+   ```
+
+7. Test if the project is working in your browser
+
+   ```
+   http://localhost:8000/api/client
+   ```
+
 ## Testing the providers
 
 **Test the `getList`provider**
