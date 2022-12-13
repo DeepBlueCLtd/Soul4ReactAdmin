@@ -9,12 +9,25 @@ import {
   GenreEdit,
   GenreShow,
 } from "./components/Genre";
+
 import {
   InvoiceItemList,
   InvoiceItemShow,
   InvoiceItemEdit,
-} from "./components/InvoiceItems";
-import { TrackList, TrackShow, TrackEdit } from "./components/Track";
+  InvoiceItemCreate,
+} from "./components/InvoiceItem";
+import {
+  AlbumList,
+  AlbumShow,
+  AlbumEdit,
+  AlbumCreate,
+} from "./components/Album";
+import {
+  TrackList,
+  TrackShow,
+  TrackEdit,
+  TrackCreate,
+} from "./components/Track";
 
 const pkDictionary = {
   genres: "GenreId",
@@ -27,11 +40,12 @@ const pkDictionary = {
   playlists: "PlayListId",
   playlist_track: "PlayListId",
   tracks: "TrackId",
+  albums: "AlbumId",
 };
 
 function App() {
   return (
-    <Admin dataProvider={dataProvider({ pkDictionary, apiUrl: config.apiUrl })}>
+    <Admin dataProvider={dataProvider(pkDictionary, config.apiUrl)}>
       <Resource
         name="genres"
         list={GenreList}
@@ -42,6 +56,7 @@ function App() {
 
       <Resource
         name="invoice_items"
+        create={InvoiceItemCreate}
         list={InvoiceItemList}
         show={InvoiceItemShow}
         edit={InvoiceItemEdit}
@@ -52,7 +67,15 @@ function App() {
         list={TrackList}
         show={TrackShow}
         edit={TrackEdit}
+        create={TrackCreate}
         recordRepresentation="Name"
+      />
+      <Resource
+        name="albums"
+        list={AlbumList}
+        show={AlbumShow}
+        edit={AlbumEdit}
+        create={AlbumCreate}
       />
     </Admin>
   );
